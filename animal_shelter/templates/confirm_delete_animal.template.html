@@ -4,10 +4,10 @@
 {%block content%}
 <div class="alert alert-danger">
     <form method="POST">
-        Are you sure to delete {{animal.animal_name}}?
+        Are you sure to delete {{animal.name}}?
         <div>
-            <input type="submit" value="Confirm"/>
-            <a class="btn btn-primary" href="{{  url_for('delete_animal', animal_id=animal._id) }}">Delete</a>
+            <input type="submit" value="Confirm" class="btn btn-danger"/>
+            <a class="btn btn-primary" href="{{url_for('show_all_animals}}">Cancel</a>
         </div>
     </form>
 </div>

@@ -12,7 +12,7 @@
         {%for animal in all_animals %}
         <tr>
             <td>{{animal.name}}</td>
-            <td>{{animal.type}}</td>
+            <td>{{animal.type.name}}</td>
             <td>{{animal.breed}}</td>
             <td>
                 <a href="{{ url_for('update_animal', id=animal._id)}}" class="btn btn-primary btn-sm">Edit</a>
