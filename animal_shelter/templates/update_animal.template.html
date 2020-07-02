@@ -1,4 +1,4 @@
-{%extends 'layout.template.html'%}
+{%extends 'layout.template.html' %}
 
 {%block content%}
 <h2>Edit New Animal</h2>
@@ -13,11 +13,11 @@
         <select name="animal_type" class="form-control">
             {%for animal_type in all_animal_types %}
                 {% if animal_type._id == animal.type._id %}
-                <option value="{{animal_type._id" selected>{{animal_type.type_name}}</option>
-                {% else %}
-                <option value="{{animal_type._id">{animal_type.type_name}}</option>
-                {%endif%}
-            {%endfor%}
+                    <option value="{{animal_type._id}}" selected>{{animal_type.type_name}}</option>
+                    {% else %}
+                    <option value="{{animal_type._id}}">{{animal_type.type_name}}</option>
+                    {%endif%}
+            {% endfor %}
         </select>
     </div>
 

@@ -22,7 +22,7 @@ def show_all_animals():
 
 @app.route('/animal/create')
 def create_animal():
-    all_animal_types = client[DB_NAME].animal_tyles.find()
+    all_animal_types = client[DB_NAME].animal_types.find()
     return render_template('create_animal.template.html', all_animal_types=all_animal_types)
 
 
@@ -51,12 +51,17 @@ def process_create_animal():
 @app.route('/animal/update/<id>')
 def update_animal(id):
     # find the animal by its id
+    # we must match by the ObjectId(...) object
     animal = client[DB_NAME].animals.find_one({
         "_id": ObjectId(id)
     })
+
+    # get all animal types
     all_animal_types = client[DB_NAME].animal_types.find()
 
-    return render_template('update_animal.template.html', animal=animal, all_animal_types=all_animal_types)
+    return render_template("update_animal.template.html",
+                           animal=animal,
+                           all_animal_types=all_animal_types)
 
 
 @app.route('/animal/update/<id>', methods=["POST"])
@@ -65,7 +70,7 @@ def process_update_animal(id):
     animal_type = request.form.get('animal_type')
     breed = request.form.get('breed')
 
-    selected_animal_type = clien[DB_NAME].find_one({
+    selected_animal_type = client[DB_NAME].animal_types.find_one({
         "_id": ObjectId(animal_type)
     })
 
@@ -75,8 +80,8 @@ def process_update_animal(id):
         "$set": {
             "name": animal_name,
             "type": {
-                "_id": selected_animal_type["_id"],
-                "name": selected_animal_type["type_name"]
+                '_id': selected_animal_type["_id"],
+                'name': selected_animal_type["type_name"]
             },
             "breed": breed
         }
@@ -84,7 +89,25 @@ def process_update_animal(id):
 
     return redirect(url_for('show_all_animals'))
 
-    # "magic code" -- boilerplate
+
+@app.route('/animals/delete/<animal_id>')
+def delete_animal(animal_id):
+    animal = client[DB_NAME].animals.find_one({
+        "_id": ObjectId(animal_id)
+    })
+
+    return render_template('confirm_delete_animal.template.html', animal=animal)
+
+
+@app.route('/animals/delete/<animal_id>', methods=["POST"])
+def process_delete_animal(animal_id):
+    client[DB_NAME].animals.remove({
+        "_id": ObjectId(animal_id)
+    })
+    return redirect(url_for('show_all_animals'))
+
+
+# "magic code" -- boilerplate
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),
             port=int(os.environ.get('PORT')),

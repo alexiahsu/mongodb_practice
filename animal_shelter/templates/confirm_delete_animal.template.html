@@ -1,14 +1,16 @@
-{%extends 'layout.template.html' %}
+{% extends 'layout.template.html' %}
 
 
-{%block content%}
+{%block content %}
 <div class="alert alert-danger">
-    <form method="POST">
-        Are you sure to delete {{animal.name}}?
-        <div>
-            <input type="submit" value="Confirm" class="btn btn-danger"/>
-            <a class="btn btn-primary" href="{{url_for('show_all_animals}}">Cancel</a>
+	<form method="POST">
+		Are you sure you want to delete {{animal.name}}?
+		<div>
+			<input type="submit" value="Confirm" class="btn btn-danger"/>
+            <a class="btn btn-primary" href="{{url_for('show_all_animals') }}">Cancel</a>
         </div>
-    </form>
+	</form>
 </div>
+
+
 {%endblock%}
